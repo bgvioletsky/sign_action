@@ -27,9 +27,11 @@ jobs:
               python -m pip install --upgrade pip
               pip install -r ./config/requirements.txt
         - name: 运行书香门第签到脚本
+          if: env.SXMD_ACCOUNT != '' && env.SXMD_PASSWORD != ''
           run: |
               python ./python/sxmd.py
         - name: 运行源社区签到脚本
+          if: env.YSQ_ACCOUNT != '' && env.YSQ_PASSWORD != ''
           run: |
               python ./python/ysq.py
         - name: 删除该流程多余仅保留五条记录

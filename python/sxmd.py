@@ -1,10 +1,10 @@
 '''
 Author: bgcode
 Date: 2024-10-28 15:54:20
-LastEditTime: 2025-03-27 09:45:36
+LastEditTime: 2025-03-30 13:15:01
 LastEditors: bgcode
 Description: 描述
-FilePath: /sign_action/python/sxmd
+FilePath: /sign_action/python/sxmd.py
 本项目采用GPL 许可证，欢迎任何人使用、修改和分发。
 '''
 import re
@@ -112,11 +112,11 @@ def main():
     account=os.environ.get('SXMD_ACCOUNT')
     password=os.environ.get('SXMD_PASSWORD')
     if client.login(host, account, password):
-        print("登录成功")
+        # print("登录成功")
         if client.getformhash(host):
-            print("获取 formhash 成功")
+            # print("获取 formhash 成功")
             if client.sign(host):
-                print(client.subt)
+                # print(client.subt)
                 if client.info(host):
                     print(client.result)
             else:
@@ -125,7 +125,7 @@ def main():
             print("获取 formhash 失败")
     else:
         print("登录失败")
-
+    return client.result
 # 运行示例
 if __name__ == "__main__":
     main()

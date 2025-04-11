@@ -1,7 +1,7 @@
 '''
 Author: bgcode
 Date: 2025-03-28 07:14:22
-LastEditTime: 2025-04-11 23:53:05
+LastEditTime: 2025-04-12 00:29:44
 LastEditors: bgcode
 Description: 描述
 FilePath: /sign_action/python/ysq.py
@@ -109,7 +109,7 @@ class HttpClient:
                     # cookies = response.headers.get("Set-Cookie", "")
         self.cookie= remove_duplicate_cookies(self.cookie)
         self.cookie= remove_cookie_keys(self.cookie, ['YPSa_2132_checkfollow', 'YPSa_2132_lip'])
-        print(self.cookie)
+        # print(self.cookie)
         
     def gethash(self):
         url = f"https://{self.host}/k_misign-sign.html"
@@ -132,7 +132,7 @@ class HttpClient:
             self.signhash = re.search(r'formhash=(.*?)"', response.text).group(1)
         except:
             self.signhash = ""
-        print( self.signhash)
+        # print( self.signhash)
         # print(response.text)
 
 
@@ -159,7 +159,7 @@ class HttpClient:
             'Referer' : 'https://{self.host}/k_misign-sign.html'
             };
         response = requests.get(url, headers=headers)
-        print(response.text) 
+        # print(response.text) 
     def get_info(self):
         url=f'https://{self.host}/home.php?mod=spacecp&ac=credit'
         headers = {
@@ -177,17 +177,21 @@ class HttpClient:
             'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7'
         }
         response = requests.get(url, headers=headers)
-        pattern = r'源币.*?>(\d+).*?经验.*?>(\d+).*?贡献.*?>(\d+).*?积分.*?>(\d+)'
-        match = re.search(pattern, response.text, re.DOTALL)  # re.DOTALL 让 . 匹配换行符
-        if match:
+
+        
+        match = re.search(r'源币.*?>(\d+)', response.text)  # re.DOTALL 让 . 匹配换行符
+        match1 = re.search(r'经验.*?>(\d+)', response.text)
+        match2 = re.search(r'贡献.*?>(\d+)', response.text)
+        match3 = re.search(r'积分.*?>(\d+)', response.text)
+        # print(response.text)
+
             # 提取四个捕获组的值（确保顺序正确）
-            source_coin = match.group(1)
-            experience = match.group(2)
-            contribution = match.group(3)
-            points = match.group(4)
-            self.info = f"源币:{source_coin}  经验:{experience}  贡献:{contribution}  积分:{points}"
-        else:
-            print("未找到匹配的内容")
+        source_coin = match.group(1)
+        experience = match1.group(1)
+        contribution = match2.group(1)
+        points = match3.group(1)
+        self.info = f"源币:{source_coin}  经验:{experience}  贡献:{contribution}  积分:{points}"
+
         # print(self.info)
         return self.info
 def main():
